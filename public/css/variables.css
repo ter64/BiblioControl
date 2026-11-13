@@ -14,3 +14,11 @@ h2{color: var(--color-secundario);}
 h3{color: var(--color-dos);}
 h5{color: #6d5331;}
 h4{color: var(--color-uno);}
+
+html, body {
+    height: 100%;
+}
+img {
+    max-width: 100%;
+    display: block;
+}
