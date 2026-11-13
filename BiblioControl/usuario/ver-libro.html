@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle del Libro - BiblioControl</title>
+    <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="10x10">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/layout.css"> 
+    <link rel="stylesheet" href="../css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <nav class="menu">
+            <a href="inicio.html" class="logo">
+                <img src="../imagenes/isl.png" width="24">
+            </a>
+            <ul class="menu-items">
+                <li class="active"><a href="inicio.html"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="favoritos.html"><i class="fa-solid fa-heart"></i></a></li>
+                <li><a href="reservar.html"><i class="fa-solid fa-bookmark"></i></a></li>
+                <li><a href="historial.html"><i class="fa-solid fa-clock"></i></a></li>
+                <li><a href="config.html"><i class="fa-solid fa-gear"></i></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+
+    <div class="dashboard-body">
+        <main class="dashboard">
+            <div class="book-page-layout">
+                
+                <div class="book-detail-container" id="bookDetailContainer">
+                    <div class="table">
+                        <a class="btn" href="inicio.html"><i class="fa-solid fa-arrow-left"></i></a>
+                    </div>
+
+                    <!-- Estado: cargando -->
+                    <div class="book-loading" id="bookCargando">
+                        <p>Cargando detalle del libro...</p>
+                    </div>
+
+                    <!-- Estado: no encontrado -->
+                    <div class="book-error" id="bookError" style="display: none;">
+                        <p>Libro no encontrado.</p>
+                        <a href="inicio.html" class="btn">Volver al inicio</a>
+                    </div>
+
+                    <!-- Contenido dinámico -->
+                    <div class="book-main-info" id="bookMainInfo" style="display: none;">
+                        <div class="book-cover-wrapper">
+                            <img id="bookCover" src="../imagenes/libro1.png" alt="Portada del Libro">
+                        </div>
+
+                        <div class="book-details-text">
+                            <div class="action-floating-buttons">
+                                <button class="btn-icon-action" id="btnFavorito" title="Agregar a Favoritos"><i class="fa-regular fa-heart"></i></button>
+                                <button class="btn-icon-action" id="btnReservar" title="Reservar Libro"><i class="fa-regular fa-bookmark"></i></button>
+                            </div>
+                            
+                            <div>
+                                <h1 class="book-title" id="bookTitle">Título</h1>
+                                <p class="book-author" id="bookAuthor">por Autor</p>
+                                
+                                <div class="book-rating" id="bookRating" style="display: none;">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="rating-count"> (5.0 / 5)</span>
+                                </div>
+
+                                <div class="book-category" id="bookCategory" style="display: none;">
+                                    <span class="badge-categoria">Categoría</span>
+                                </div>
+
+                            </div>
+
+                            <div class="book-price" id="bookPrice">$0.00</div>
+                            <div class="book-stock" id="bookStock" style="display: none;"></div>
+                            <button class="btn-pay-submit" id="btnPagar">Comprar Libro</button>
+                        </div>
+                    </div>
+
+                    <div class="book-description-box" id="bookDescBox" style="display: none;">
+                        <h3 class="box-title">Descripción</h3>
+                        <p id="bookDescripcion">...</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+</div>
+<script type="module" src="js/api.js"></script>
+<script>
+    import { initVerLibro } from './js/api.js';
+    document.addEventListener('DOMContentLoaded', initVerLibro);
+</script>
+</body>
+</html>

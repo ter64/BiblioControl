@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Historial de Préstamos - BiblioControl</title>
+    <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
+    <link rel='stylesheet' href='../css/variables.css'>
+    <link rel='stylesheet' href='../css/admin.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <nav class="menu">
+            <a href="admin.html" class="logo">
+                <img src="../imagenes/isl.png" alt="Logo">
+            </a>
+            <ul class="menu-items">
+                <li><a href="inicio-admin.html"><i class="fa-solid fa-house"></i> <span>Inicio</span></a></li>
+                <li><a href="libros.html"><i class="fa-solid fa-book"></i> <span>Libros</span></a></li>
+                <li><a href="usuarios.html"><i class="fa-solid fa-users"></i> <span>Usuarios</span></a></li>
+                <li class="active"><a href="prestamos.html"><i class="fa-solid fa-arrows-rotate"></i> <span>Préstamos</span></a></li>
+                <li><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
+                <li><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="dashboard-body">
+        <main class="dashboard">
+
+            <!-- ===== REGISTRAR PRÉSTAMO ===== -->
+            <section class="content-area">
+                <div class="section-header">
+                    <h2>Gestión Prestamos</h2>
+                    <h4><i class="fa-solid fa-plus"></i> Registrar Nuevo Préstamo</h4>
+                </div>
+                <form class="form-group-inline" action="prestamo_guardar.php" method="POST">
+                    <select name="id_cliente" class="form-input" required>
+                        <!-- SELECT id, nombre FROM clientes ORDER BY nombre -->
+                    </select>
+                    <select name="id_libro" class="form-input" required>
+                        <!-- SELECT id, titulo FROM libros WHERE stock > 0 ORDER BY titulo -->
+                    </select>
+                    <select name="id_admin" class="form-input" required>
+                        <!-- SELECT id, nombre FROM administradores ORDER BY nombre -->
+                    </select>
+                    <input type="date" name="fecha_prestamo" placeholder='Fecha préstamo' class="form-input" required>
+                    <input type="date" name="fecha_dev_prevista" placeholder='Fecha devolución prevista' class="form-input" required>
+                    <button type="submit" class="btn-admin">Registrar Préstamo</button>
+                </form>
+            </section>
+
+            <!-- ===== HISTORIAL DE PRÉSTAMOS ===== -->
+            <section class="content-area">
+                <div class="section-header">
+                    <h4><i class="fa-solid fa-list"></i> Historial de Préstamos</h4>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Cliente</th>
+                                <th scope="col">Libro</th>
+                                <th scope="col">Fecha Préstamo</th>
+                                <th scope="col">Fecha Dev. Prevista</th>
+                                <th scope="col">Fecha Dev. Real</th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-prestamos">
+                            <!-- SELECT p.id, cl.nombre AS cliente, l.titulo AS libro, a.nombre AS admin, p.fecha_prestamo, p.fecha_dev_prevista, p.fecha_dev_real, p.estado FROM prestamos p JOIN clientes cl ON p.id_cliente = cl.id JOIN libros l ON p.id_libro = l.id JOIN administradores a ON p.id_admin = a.id ORDER BY p.fecha_prestamo DESC -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

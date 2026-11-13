@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Recuperar Contraseña - Bibliocontrol</title>
+    <link rel="icon" href="imagenes/logo.png" type="image/png" sizes="60x60">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/login.css"> 
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <div class="recuperar-container">
+        <h2>Recuperar Contraseña</h2>
+        
+        <!-- Mensaje de estado -->
+        <p id="mensajeEstado" style="text-align: center; color: #666; margin-bottom: 20px;"></p>
+
+        <!-- Paso 1: Ingresar Email -->
+        <div class="container-input" id="paso1">
+            <input type="email" id="emailInput" placeholder="Ingrese su correo electrónico">
+        </div>
+
+        <!-- Paso 2: Nueva Contraseña (Solo visible después de hacer clic en el enlace del correo) -->
+        <div class="container-input" id="paso2" style="display: none;">
+            <input type="password" id="nuevaPassword" placeholder="Nueva contraseña">
+        </div>
+        <div class="container-input" id="paso3" style="display: none;">
+            <input type="password" id="confirmarPassword" placeholder="Confirmar contraseña">
+        </div>
+
+        <button class="button" id="btnAccion">Enviar Correo de Recuperación</button>
+
+        <a class="volver" href="index.html">Volver al inicio</a>
+    </div>
+<script type="module" src="js/recuperar.js"></script>
+</body>
+</html>

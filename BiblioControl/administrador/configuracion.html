@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Configuración - BiblioControl</title>
+    <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
+    <link rel='stylesheet' href='../css/variables.css'>
+    <link rel='stylesheet' href='../css/admin.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <nav class="menu">
+            <a href="configuracion.html" class="logo">
+                <img src="../imagenes/isl.png" alt="Logo">
+            </a>
+
+            <ul class="menu-items">
+                <li><a href="inicio-admin.html"><i class="fa-solid fa-house"></i> <span>Inicio</span></a></li>
+                <li><a href="libros.html"><i class="fa-solid fa-book"></i> <span>Libros</span></a></li>
+                <li><a href="usuarios.html"><i class="fa-solid fa-users"></i> <span>Usuarios</span></a></li>
+                <li><a href="prestamos.html"><i class="fa-solid fa-arrows-rotate"></i> <span>Préstamos</span></a></li>
+                <li><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
+                <li class="active"><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="dashboard-body">
+        <main class="dashboard">
+
+            <!-- ===== PERFIL DEL ADMINISTRADOR ===== -->
+            <section class="content-area">
+                <h2>Configuración</h2>
+                <div class="section-header">
+                    <i class="fa-solid fa-user"></i> <span id="admin-nombre">Nombre del Administrador</span>
+               <span id="admin-correo">admin@gmail.com
+                </div>
+                
+                <div >
+                    <h4>Cambiar Nombre</h4>
+                </div>
+                <form class="form-group-inline" action="perfil_actualizar.php" method="POST">
+                    <input type="hidden" name="id_admin" value="">
+                    <input type="text" name="nombre" placeholder='Nombre' class="form-input" required>
+                    <button type="submit" class="btn-admin">Guardar Cambios</button>
+                </form>
+                <!-- SELECT nombre, correo FROM administradores WHERE id = ? (sesión) -->
+
+            <!-- ===== CAMBIAR CONTRASEÑA ===== -->
+             <div>
+                    <h4>Cambiar Contraseña</h4>
+                </div>
+                <form class="form-group-inline" action="password_cambiar.php" method="POST">
+                    <input type="password" name="password_actual" placeholder='Contraseña actual' class="form-input" required>
+                    <input type="password" name="password_nueva" placeholder='Nueva contraseña' class="form-input" required>
+                    <input type="password" name="password_confirmar" placeholder='Confirmar nueva contraseña' class="form-input" required>
+                    <button type="submit" class="btn-admin">Cambiar Contraseña</button>
+                </form>
+            </section>
+
+            <!-- ===== PARÁMETROS DE PRÉSTAMO ===== -->
+            <section class="content-area">
+                <div class="section-header">
+                    <h4><i class="fa-solid fa-sliders"></i> Parámetros del Sistema</h4>
+                </div>
+                <form class="form-group-inline" action="config_guardar.php" method="POST">
+                    <input type="number" name="dias_prestamo" placeholder='Días de préstamo (ej: 14)' min="1" class="form-input">
+                    <input type="number" name="max_libros_cliente" placeholder='Máx. libros por cliente (ej: 3)' min="1" class="form-input">
+                    <input type="number" name="multa_diaria" placeholder='Multa diaria ($)' step="0.01" min="0" class="form-input">
+                    <button type="submit" class="btn-admin">Guardar Parámetros</button>
+                </form>
+                <!-- Requiere tabla config(id, clave, valor). Ver nota abajo. -->
+            </section>
+
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

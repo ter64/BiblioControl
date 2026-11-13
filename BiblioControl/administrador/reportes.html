@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang='es'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Reportes y Deudas - BiblioControl</title>
+    <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
+    <link rel='stylesheet' href='../css/variables.css'>
+    <link rel='stylesheet' href='../css/admin.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <nav class="menu">
+            <a href="admin.html" class="logo">
+                <img src="../imagenes/isl.png" alt="Logo">
+            </a>
+            <ul class="menu-items">
+                <li><a href="inicio-admin.html"><i class="fa-solid fa-house"></i> <span>Inicio</span></a></li>
+                <li><a href="libros.html"><i class="fa-solid fa-book"></i> <span>Libros</span></a></li>
+                <li><a href="usuarios.html"><i class="fa-solid fa-users"></i> <span>Usuarios</span></a></li>
+                <li><a href="prestamos.html"><i class="fa-solid fa-arrows-rotate"></i> <span>Préstamos</span></a></li>
+                <li class="active"><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
+                <li><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="dashboard-body">
+        <main class="dashboard">
+            <section class="content-area">
+                <div class="section-header">
+                    <h2>Reportes y Deudas</h2>
+                    <h4><i class="fa-solid fa-plus"></i> Registrar Multa</h4>
+                </div>
+                <!-- ===== MULTAS ===== -->
+                <form class="form-group-inline" action="multa_guardar.php" method="POST">
+                    <select name="id_prestamo" class="form-input" required>
+                        <!-- SELECT p.id, CONCAT(cl.nombre, ' — ', l.titulo) AS descripcion FROM prestamos p JOIN clientes cl ON p.id_cliente = cl.id JOIN libros l ON p.id_libro = l.id WHERE p.estado != 'Devuelto' ORDER BY p.fecha_prestamo DESC -->
+                    </select>
+                    <input type="date" name="fecha_multa" placeholder='Fecha multa' class="form-input" required>
+                    <input type="number" name="importe" placeholder='Importe' step="0.01" min="0" class="form-input" required>
+                    <button type="submit" class="btn-admin">Registrar Multa</button>
+                </form>
+            </section>
+
+            <section class="content-area">
+                <div class="section-header">
+                    <h4><i class="fa-solid fa-file-invoice-dollar"></i> Historial de Multas</h4>
+                </div>
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Préstamo</th>
+                                <th scope="col">Fecha Multa</th>
+                                <th scope="col">Importe</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-multas">
+                            <!-- SELECT m.id, CONCAT(cl.nombre, ' — ', l.titulo) AS prestamo, m.fecha_multa, m.importe, m.estado FROM multas m JOIN prestamos p ON m.id_prestamo = p.id JOIN clientes cl ON p.id_cliente = cl.id JOIN libros l ON p.id_libro = l.id ORDER BY m.fecha_multa DESC -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+
+</body>
+</html>

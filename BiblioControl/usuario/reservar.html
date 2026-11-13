@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Bibliocontrol - Reservas</title>
+    <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/layout.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div class="dashboard-container">
+
+    <aside class="sidebar">
+        <nav class="menu">
+            <a href="inicio.html" class="logo">
+                <img src="../imagenes/isl.png" width="24">
+            </a>
+            <ul class="menu-items">
+                <li><a href="inicio.html"><i class="fa-solid fa-house"></i></a></li>
+                <li><a href="favoritos.html"><i class="fa-solid fa-heart"></i></a></li>
+                <li class="active"><a href="reservar.html"><i class="fa-solid fa-bookmark"></i></a></li>
+                <li><a href="historial.html"><i class="fa-solid fa-clock"></i></a></li>
+                <li><a href="config.html"><i class="fa-solid fa-gear"></i></a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="dashboard-body">
+        
+        <main class="dashboard dashboard--full">
+
+            <section class="content-area">
+                
+                <div class="section-header">
+                    <h3>Reservas</h3>
+                </div>
+                
+                <div class="reservar-lista" id="reservasContainer">
+
+                    <!-- Estado: cargando -->
+                    <p id="reservasCargando" class="res-mensaje">Cargando reservas...</p>
+
+                    <!-- Estado: vacío / sin sesión -->
+                    <p id="reservasVacio" class="res-mensaje" style="display: none;">
+                        <i class="fa-regular fa-bookmark"></i><br>
+                        No tienes reservas activas.
+                    </p>
+
+                    <!-- Los items se generan aquí desde Supabase -->
+                    <template id="tplReserva">
+                        <div class="reservar-item">
+                            <div class="reservar-info">
+                                <strong data-campo="titulo">Título</strong>
+                                <span data-campo="categoria">Categoría</span>
+                                <span data-campo="fecha">Recoger: --/--/----</span>
+                            </div>
+                            <button class="res-btn active-bookmark" title="Cancelar reserva">
+                                <i class="fa-solid fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </template>
+
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+</div>
+<script type="module" src="js/api.js"></script>
+<script>
+    import { initReservas } from './js/api.js';
+    document.addEventListener('DOMContentLoaded', initReservas);
+</script>
+</body>
+</html>
