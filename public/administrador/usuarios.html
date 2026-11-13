@@ -37,7 +37,7 @@
                 <div class="section-header">
                     <h4><i class="fa-solid fa-user-plus"></i> Crear Nuevo Cliente</h4>
                 </div>
-                <form class="form-group-inline" action="cliente_guardar.php" method="POST">
+                <form class="form-group-inline" action="cliente_guardar" method="POST">
                     <input type="text" name="nombre" placeholder='Nombre' class="form-input" required>
                     <input type="email" name="correo" placeholder='Correo electrónico' class="form-input" required>
                     <input type="password" name="contraseña" placeholder='Contraseña' class="form-input" required>
@@ -103,6 +103,9 @@
         </main>
     </div>
 </div>
-
+<script>
+    import { initUsuarios } from './js/api.js';
+    document.addEventListener('DOMContentLoaded', initUsuarios);
+</script>
 </body>
 </html>

@@ -1,12 +1,9 @@
 import { supabase } from '../../api/config.js';
 
-export async function obtenerClienteId() {    
+async function obtenerUsuario() {
     const { data: { user }, error } = await supabase.auth.getUser();
-    if (error || !user) {
-        console.warn("No hay un usuario autenticado actualmente.");
-        return null;
-    }
-    return user.id; 
+    if (error || !user) return null;
+    return user; 
 }
 
 export function formatearFecha(fecha) {
@@ -294,4 +291,199 @@ export async function initVerLibro() {
             });
         }
     }
+}
+import { supabase } from '../api/config.js';
+
+export async function verificarAdmin() {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return window.location.href = '../../index.html';
+
+    const { data: admin, error } = await supabase
+        .from('administradores')
+        .select('*')
+        .eq('correo', user.email)
+        .maybeSingle();
+
+    if (error || !admin) {
+        alert('Acceso denegado.');
+        window.location.href = '../../index.html';
+        return null;
+    }
+    return admin;
+}
+
+// inicio-admin.html
+export async function initInicio() {
+    const admin = await verificarAdmin();
+    if (!admin) return;
+
+    // Cards
+    const { count: totalLibros } = await supabase.from('libros').select('*', { count: 'exact', head: true });
+    const { count: prestados } = await supabase.from('prestamos').select('*', { count: 'exact', head: true }).eq('estado', 'activo');
+    const { count: usuarios } = await supabase.from('clientes').select('*', { count: 'exact', head: true });
+    const { count: atrasados } = await supabase.from('prestamos').select('*', { count: 'exact', head: true }).eq('estado', 'vencido');
+
+    document.getElementById('total-libros').textContent = totalLibros || 0;
+    document.getElementById('libros-prestados').textContent = prestados || 0;
+    document.getElementById('usuarios-registrados').textContent = usuarios || 0;
+    document.getElementById('devoluciones-atrasadas').textContent = atrasados || 0;
+
+    // Tabla Estados
+    const tbodyEstados = document.getElementById('tabla-estados');
+    ['activo', 'devuelto', 'vencido', 'reservado'].forEach(async (estado) => {
+        const { count } = await supabase.from('prestamos').select('*', { count: 'exact', head: true }).eq('estado', estado);
+        tbodyEstados.innerHTML += `<tr><td>${estado}</td><td>${count}</td></tr>`;
+    });
+
+    // Actividad Reciente
+    const { data: actividad } = await supabase
+        .from('prestamos')
+        .select('fecha_prestamo, estado, clientes(nombre), libros(titulo)')
+        .order('fecha_prestamo', { ascending: false })
+        .limit(5);
+    
+    const lista = document.getElementById('lista-actividad');
+    if (actividad) {
+        lista.innerHTML = actividad.map(a => `
+            <li><strong>${a.libros.titulo}</strong> - ${a.estado} (${a.clientes.nombre})</li>
+        `).join('');
+    }
+}
+
+// libros.html
+export async function initLibros() {
+    const admin = await verificarAdmin();
+    if (!admin) return;
+
+    await cargarLibros();
+    await cargarCategorias();
+
+    // Guardar Libro
+    document.querySelector('form[action="libro_guardar.php"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const libro = {
+            titulo: form.titulo.value,
+            subtitulo: form.subtitulo.value,
+            id_categoria: form.id_categoria.value,
+            precio: form.precio.value,
+            stock: form.stock.value
+        };
+        const { error } = await supabase.from('libros').insert(libro);
+        if (error) alert('Error: ' + error.message);
+        else {
+            alert('Libro guardado');
+            form.reset();
+            cargarLibros();
+        }
+    });
+
+    // Guardar Categoría
+    document.querySelector('form[action="categoria_guardar.php"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const { error } = await supabase.from('categorias').insert({ nombre_categoria: e.target.nombre_categoria.value });
+        if (error) alert('Error');
+        else {
+            alert('Categoría guardada');
+            e.target.reset();
+            cargarCategorias();
+        }
+    });
+}
+
+async function cargarLibros() {
+    const { data } = await supabase.from('libros').select(`*, categorias(nombre_categoria)`);
+    const tbody = document.getElementById('tabla-libros');
+    tbody.innerHTML = data.map(l => `
+        <tr>
+            <td>${l.id}</td><td>${l.titulo}</td><td>${l.subtitulo}</td>
+            <td>${l.categorias.nombre_categoria}</td><td>${l.precio}</td><td>${l.stock}</td>
+            <td><button onclick="eliminarLibro(${l.id})">Eliminar</button></td>
+        </tr>
+    `).join('');
+}
+
+async function cargarCategorias() {
+    const { data } = await supabase.from('categorias').select('id, nombre_categoria');
+    // Llenar Select
+    const select = document.querySelector('select[name="id_categoria"]');
+    select.innerHTML = '<option value="">Seleccionar</option>' + data.map(c => `<option value="${c.id}">${c.nombre_categoria}</option>`).join('');
+    // Llenar Tabla
+    const tbody = document.getElementById('tabla-categorias');
+    tbody.innerHTML = data.map(c => `<tr><td>${c.nombre_categoria}</td></tr>`).join('');
+}
+
+window.eliminarLibro = async (id) => {
+    if (confirm('¿Eliminar?')) {
+        await supabase.from('libros').delete().eq('id', id);
+        cargarLibros();
+    }
+};
+
+// usuarios.html
+export async function initUsuarios() {
+    const admin = await verificarAdmin();
+    if (!admin) return;
+
+    const { data } = await supabase.from('clientes').select('*');
+    const tbody = document.getElementById('tabla-usuarios');
+    tbody.innerHTML = data.map(u => `
+        <tr>
+            <td>${u.nombre}</td><td>${u.correo}</td><td>${u.id}</td>
+            <td><button onclick="eliminarUsuario('${u.id}')">Eliminar</button></td>
+        </tr>
+    `).join('');
+}
+
+window.eliminarUsuario = async (id) => {
+    if (confirm('¿Eliminar usuario?')) {
+        await supabase.from('clientes').delete().eq('id', id);
+        initUsuarios();
+    }
+};
+
+// prestamos.html
+export async function initPrestamos() {
+    const admin = await verificarAdmin();
+    if (!admin) return;
+
+    const { data } = await supabase
+        .from('prestamos')
+        .select(`*, clientes(nombre), libros(titulo)`);
+    
+    const tbody = document.getElementById('tabla-prestamos');
+    tbody.innerHTML = data.map(p => `
+        <tr>
+            <td>${p.libros.titulo}</td><td>${p.clientes.nombre}</td>
+            <td>${p.estado}</td><td>${p.fecha_dev_prevista}</td>
+            <td>${p.fecha_dev_real || 'Pendiente'}</td>
+        </tr>
+    `).join('');
+}
+
+// configuracion.html
+export async function initConfig() {
+    const admin = await verificarAdmin();
+    if (!admin) return;
+
+    document.getElementById('admin-nombre').textContent = admin.nombre;
+    document.getElementById('admin-correo').textContent = admin.correo;
+
+    // Actualizar Perfil
+    document.querySelector('form[action="perfil_actualizar.php"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const { error } = await supabase.from('administradores').update({ nombre: e.target.nombre.value }).eq('id', admin.id);
+        if (!error) alert('Perfil actualizado');
+    });
+
+    // Cambiar Contraseña
+    document.querySelector('form[action="password_cambiar.php"]').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (e.target.password_nueva.value !== e.target.password_confirmar.value) {
+            return alert('Las contraseñas no coinciden');
+        }
+        const { error } = await supabase.auth.updateUser({ password: e.target.password_nueva.value });
+        if (error) alert('Error: ' + error.message);
+        else alert('Contraseña cambiada. Inicia sesión de nuevo.');
+    });
 }

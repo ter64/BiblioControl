@@ -48,9 +48,6 @@
                     <input type="text" name="nombre" placeholder='Nombre' class="form-input" required>
                     <button type="submit" class="btn-admin">Guardar Cambios</button>
                 </form>
-                <!-- SELECT nombre, correo FROM administradores WHERE id = ? (sesión) -->
-
-            <!-- ===== CAMBIAR CONTRASEÑA ===== -->
              <div>
                     <h4>Cambiar Contraseña</h4>
                 </div>
@@ -80,5 +77,9 @@
     </div>
 </div>
 
+<script>
+    import { initConfig } from './js/api.js';
+    document.addEventListener('DOMContentLoaded', initConfig);
+</script>
 </body>
 </html>
