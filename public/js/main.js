@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('reg-password').value;
 
             try {
-                const { supabase } = await import('../../api/config.js');
+                const { supabase } = await import('../api/config.js');
                 const { data: authData, error: authError } = await supabase.auth.signUp({
                     email, password
                 });
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const password = document.getElementById('login-password').value;
 
             try {
-                const { supabase } = await import('../../api/config.js');
+                const { supabase } = await import('../api/config.js');
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (adminData) {
                     alert('Admin: ' + adminData.nombre);
-                    window.location.href = "administrador/inicio-admin.html";
+                    window.location.href = "/administrador/inicio-admin.html";
                 } else {
                     alert('Bienvenido: ' + email);
                     window.location.href = "usuario/inicio.html";

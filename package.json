@@ -4,8 +4,7 @@
   "description": "BiblioControl",
   "main": "main.js",
   "scripts": {
-    "start": "node api/main.js",
-    "dev": "node --watch api/main.js"
+    "start": "node api/main.js"
   },
   "test": "echo \"Error: no test specified\" && exit 1",
   "dependencies": {
