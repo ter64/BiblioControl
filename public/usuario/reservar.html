@@ -5,8 +5,7 @@
     <title>Bibliocontrol - Reservas</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
     <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -18,15 +17,25 @@
     <aside class="sidebar">
         <nav class="menu">
             <a href="inicio.html" class="logo">
-                <img src="../imagenes/isl.png" width="24">
+                <img src="../imagenes/isl.png" alt="Logo BiblioControl">
             </a>
             <ul class="menu-items">
                 <li><a href="inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a></li>
                 <li><a href="favoritos.html"><i class="fa-solid fa-heart"></i><span>Favoritos</span></a></li>
                 <li class="active"><a href="reservar.html"><i class="fa-solid fa-bookmark"></i><span>Reservar</span></a></li>
                 <li><a href="historial.html"><i class="fa-solid fa-clock"></i><span>Historial</span></a></li>
+                <li><a href="notificaciones.html"><i class="fa-solid fa-bell"></i><span>Notificaciones</span></a></li>
                 <li><a href="config.html"><i class="fa-solid fa-gear"></i><span>Configuración</span></a></li>
             </ul>
+
+            <div class="sidebar-footer">
+                <button type="button" id="btnDarkMode" class="btn-icon" title="Cambiar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" id="btnLogout" class="btn-icon btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </nav>
     </aside>
 
@@ -37,34 +46,24 @@
             <section class="content-area">
                 
                 <div class="section-header">
-                    <h3>Reservas</h3>
+                    <h3>Mis Reservas</h3>
                 </div>
-                
+
+                <!-- MODIFICADO: formulario para registrar una reserva (tabla 'reservas') -->
+                <div class="reserva-form">
+                    <label for="selectLibroReserva">Libro</label>
+                    <select id="selectLibroReserva"></select>
+
+                    <label for="inputFechaLimite">Fecha límite para retirar</label>
+                    <input type="date" id="inputFechaLimite">
+
+                    <button type="button" id="btnCrearReserva">Reservar</button>
+                    <p id="reservaFormMsg"></p>
+                </div>
+
+                <!-- MODIFICADO: se rellena desde la tabla 'reservas' -->
                 <div class="reservar-lista" id="reservasContainer">
-
-                    <!-- Estado: cargando -->
-                    <p id="reservasCargando" class="res-mensaje">Cargando reservas...</p>
-
-                    <!-- Estado: vacío / sin sesión -->
-                    <p id="reservasVacio" class="res-mensaje" style="display: none;">
-                        <i class="fa-regular fa-bookmark"></i><br>
-                        No tienes reservas activas.
-                    </p>
-
-                    <!-- Los items se generan aquí desde Supabase -->
-                    <template id="tplReserva">
-                        <div class="reservar-item">
-                            <div class="reservar-info">
-                                <strong data-campo="titulo">Título</strong>
-                                <span data-campo="categoria">Categoría</span>
-                                <span data-campo="fecha">Recoger: --/--/----</span>
-                            </div>
-                            <button class="res-btn active-bookmark" title="Cancelar reserva">
-                                <i class="fa-solid fa-bookmark"></i>
-                            </button>
-                        </div>
-                    </template>
-
+                    <p>Cargando reservas...</p>
                 </div>
 
             </section>
@@ -72,6 +71,7 @@
         </main>
     </div>
 </div>
+
 <script type="module">
     import { initReservas } from '../js/api-usuario.js';
     initReservas();

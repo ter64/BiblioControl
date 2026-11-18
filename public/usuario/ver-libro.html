@@ -6,8 +6,7 @@
     <title>Detalle del Libro - BiblioControl</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="10x10">
     <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/layout.css"> 
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -51,7 +50,7 @@
                         <a href="inicio.html" class="btn">Volver al inicio</a>
                     </div>
 
-                    <!-- Contenido dinámico -->
+
                     <div class="book-main-info" id="bookMainInfo" style="display: none;">
                         <div class="book-cover-wrapper">
                             <img id="bookCover" src="../imagenes/libro1.png" alt="Portada del Libro">
@@ -83,8 +82,12 @@
                             </div>
 
                             <div class="book-price" id="bookPrice">$0.00</div>
-                            <div class="book-stock" id="bookStock" style="display: none;"></div>
-                            <button class="btn-pay-submit" id="btnPagar">Comprar Libro</button>
+                            <!-- MODIFICADO: stock visible desde la BD -->
+                            <div class="book-stock" id="bookStock">Stock: --</div>
+
+                            <!-- MODIFICADO: ahora solicita préstamo y genera ticket -->
+                            <button class="btn-pay-submit" id="btnPagar">Solicitar y generar ticket</button>
+                            <p id="msgPagar"></p>
                         </div>
                     </div>
 
@@ -99,6 +102,25 @@
         </main>
     </div>
 </div>
+
+<!-- Ticket: solo se muestra al imprimir -->
+<div id="ticket">
+    <div class="ticket-cabecera">
+        <h2>BiblioControl</h2>
+        <p>Ticket de retiro de libro</p>
+    </div>
+    <table class="ticket-tabla">
+        <tr><th>Código</th><td id="tkCodigo"></td></tr>
+        <tr><th>Cliente</th><td id="tkNombre"></td></tr>
+        <tr><th>Correo</th><td id="tkCorreo"></td></tr>
+        <tr><th>Libro</th><td id="tkLibro"></td></tr>
+        <tr><th>Categoría</th><td id="tkCategoria"></td></tr>
+        <tr><th>Fecha préstamo</th><td id="tkFechaPrestamo"></td></tr>
+        <tr><th>Vence</th><td id="tkFechaVencimiento"></td></tr>
+    </table>
+    <p class="ticket-pie">Presente este comprobante en mostrador para retirar el ejemplar.</p>
+</div>
+
 <script type="module">
     import { initVerLibro } from '../js/api-usuario.js';
     initVerLibro();

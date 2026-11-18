@@ -39,8 +39,11 @@ BiblioControl/
 │   │   ├── recuperar.js
 │   │   └── main.js          # Manejo del DOM, eventos y animaciones de interfaz
 │   └── index.html           # Pantalla principal de Inicio de Sesión y Registro
+├── .env                     # Variables para autenticación
 ├── .gitignore               # Archivos excluidos del repositorio
 └── README.md                # Documentación del proyecto
+
+```
 
 ## Diagrama
 

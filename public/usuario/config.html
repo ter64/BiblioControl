@@ -5,8 +5,7 @@
     <title>Bibliocontrol - Configuración</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="10x10">
     <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -45,7 +44,29 @@
                     <div class="profile-data" id="profileData">
                         <p class="user-display-name" id="userName">Cargando...</p>
                         <span class="user-email" id="userEmail">Cargando...</span>
+                        <div>
+                            <label for="inputNombre">Nombre</label><br>
+                            <input type="text" id="inputNombre">
+                        </div>
+                        <button type="button" id="btnGuardarNombre">Guardar Cambios</button>
                     </div>
+                </div>
+
+                <div class="profile-card">
+                    <h4>Cambiar Contraseña</h4>
+                    <div>
+                        <label for="inputPassActual">Contraseña Actual</label><br>
+                        <input type="password" id="inputPassActual">
+                    </div>
+                    <div>
+                        <label for="inputPassNueva">Nueva Contraseña</label><br>
+                        <input type="password" id="inputPassNueva">
+                    </div>
+                    <div>
+                        <label for="inputPassConfirm">Confirmar Nueva Contraseña</label><br>
+                        <input type="password" id="inputPassConfirm">
+                    </div>
+                    <button type="button" id="btnCambiarPass">Cambiar Contraseña</button>
                 </div>
 
                 <div class="config-actions">

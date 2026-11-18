@@ -5,8 +5,7 @@
     <title>Bibliocontrol - Inicio</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
     <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/layout.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -17,7 +16,7 @@
     <aside class="sidebar">
         <nav class="menu">
             <a href="inicio.html" class="logo">
-                <img src="../imagenes/isl.png" alt="Logo">
+                <img src="../imagenes/isl.png" alt="Logo BiblioControl">
             </a>
             <ul class="menu-items">
                 <li class="active"><a href="inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a></li>
@@ -26,13 +25,22 @@
                 <li><a href="historial.html"><i class="fa-solid fa-clock"></i><span>Historial</span></a></li>
                 <li><a href="config.html"><i class="fa-solid fa-gear"></i><span>Configuración</span></a></li>
             </ul>
+            
+            <div class="sidebar-footer">
+                <button type="button" id="btnDarkMode" class="btn-icon" title="Cambiar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" id="btnLogout" class="btn-icon btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </nav>
     </aside>
 
     <div class="dashboard-body">
         <header class="topbar">
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Buscar libros...">
+                <input type="text" id="searchInput" placeholder="Buscar libros por título o subtítulo...">
                 <button type="button" id="searchBtn" class="search-btn"><i class="fa-solid fa-search"></i></button>
             </div>
         </header>
@@ -43,26 +51,19 @@
                     <h3>Categorías</h3>
                     <button class="btn-ver" id="btnVerTodas">Ver Todas</button>
                 </div>
-                
-                <!-- Nota: data-categoria debe coincidir con los nombres exactos de tu tabla categorias -->
+                <!-- MODIFICADO: se rellena desde la tabla 'categorias' de Supabase -->
                 <div class="categorias" id="categoriasContainer">
-                    <a class="categoria novela" data-categoria="Novelas"><span>Novelas</span></a>
-                    <a class="categoria educacion" data-categoria="Educación"><span>Educación</span></a>
-                    <a class="categoria ciencia" data-categoria="Ciencia"><span>Ciencia</span></a>
-                    <a class="categoria historia" data-categoria="Historia"><span>Historia</span></a>
-                    <a class="categoria infantil" data-categoria="Infantil"><span>Infantil</span></a>
-                    <a class="categoria ficcion" data-categoria="Ficción"><span>Ficción</span></a>
-                    <a class="categoria biblio" data-categoria="Bibliografía"><span>Bibliografía</span></a>
+                    <span class="cargando-categorias">Cargando categorías...</span>
                 </div>
 
                 <div class="section-header">
                     <h3>Libros Recomendados</h3>
-                    <button class="btn-ver">Ver Todos</button>
+                    <button class="btn-ver" id="btnVerTodosLibros">Ver Todos</button>
                 </div>
-
-                <!-- ID crítico: el JS inyecta aquí los libros -->
+                <!-- MODIFICADO: cada tarjeta usa los campos de la tabla 'libros'
+                     (titulo, subtitulo, precio, imagen_url) y su categoría -->
                 <div class="productos" id="productosContainer">
-                    <!-- Los libros se cargarán dinámicamente -->
+                    <p class="cargando-libros">Cargando libros...</p>
                 </div>
             </section>
 
@@ -70,16 +71,18 @@
                 <div class="calendario-panel">
                     <h4>Calendario de Devoluciones</h4>
                     <div class="calendario">
+                        <!-- MODIFICADO: muestra fecha_devolucion_prevista de 'prestamos' del cliente -->
                         <div class="calendario-ver" id="calendarioContainer">
-                            <span id="calendarioTexto">Cargando...</span>
+                            <span id="calendarioTexto">Cargando fechas previstas...</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="devoluciones-panel">
-                    <h4>Devoluciones</h4>
+                    <h4>Préstamos y Devoluciones</h4>
+                    <!-- MODIFICADO: muestra estado ('activo','vencido','devuelto') de 'prestamos' -->
                     <div class="devoluciones" id="devolucionesContainer">
-                        <p id="devolucionesCargando">Cargando...</p>
+                        <p id="devolucionesCargando">Cargando estado de préstamos...</p>
                     </div>
                 </div>
             </aside>

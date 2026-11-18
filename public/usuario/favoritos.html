@@ -5,10 +5,10 @@
     <title>Bibliocontrol - Favoritos</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="10x10">
     <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 
@@ -39,12 +39,14 @@
                 </div>
                 
                 <div class="fav-lista" id="favListaContainer">
-                    <!-- Los favoritos se cargarán dinámicamente desde Supabase -->
-                    <p id="favCargando" class="fav-mensaje">Cargando favoritos...</p>
-                    <p id="favVacio" class="fav-mensaje" style="display: none;">
-                        <i class="fa-regular fa-heart-crack"></i>
-                        <br>No tienes libros en favoritos aún.
-                    </p>
+                    <p>Cargando favoritos...</p>
+                    <div class="fav-item">
+                        <div class="fav-info">
+                            <strong>${titulo}</strong>
+                            <span>${categoria}</span>
+                        </div>
+                        <button class="fav-btn-remove" data-id="${fav.id}">...</button>
+                    </div>
                 </div>
 
             </section>

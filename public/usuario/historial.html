@@ -5,8 +5,7 @@
     <title>Bibliocontrol - Historial</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="10x10">
     <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/layout.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/usuario.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,10 +20,10 @@
                 <img src="../imagenes/isl.png" width="24">
             </a>
             <ul class="menu-items">
-                <li ><a href="inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a></li>
+                <li><a href="inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a></li>
                 <li><a href="favoritos.html"><i class="fa-solid fa-heart"></i><span>Favoritos</span></a></li>
                 <li><a href="reservar.html"><i class="fa-solid fa-bookmark"></i><span>Reservar</span></a></li>
-                <li><a href="historial.html"><i class="fa-solid fa-clock"></i><span>Historial</span></a></li>
+                <li class="active"><a href="historial.html"><i class="fa-solid fa-clock"></i><span>Historial</span></a></li>
                 <li><a href="config.html"><i class="fa-solid fa-gear"></i><span>Configuración</span></a></li>
             </ul>
         </nav>
@@ -37,20 +36,19 @@
             <section class="content-area">
                 
                 <div class="section-header">
-                    <h3>Historial</h3>
+                    <h3>Historial y Notificaciones</h3>
                     <div class="historial-filtros">
-                        <button class="filtro-btn activo" data-estado="devuelto">Devueltos</button>
-                        <button class="filtro-btn" data-estado="vencido">Vencidos</button>
-                        <button class="filtro-btn" data-estado="multa">Multas</button>
+                        <button type="button" class="filtro-btn activo" data-estado="devuelto">Devueltos</button>
+                        <button type="button" class="filtro-btn" data-estado="activo">Activos</button>
+                        <button type="button" class="filtro-btn" data-estado="vencido">Vencidos</button>
+                        <button type="button" class="filtro-btn" data-estado="multa">Multas</button>
+                        <button type="button" class="filtro-btn" data-estado="reserva">Reservas</button>
+                        <button type="button" class="filtro-btn" data-estado="notificacion">Notificaciones</button>
                     </div>
                 </div>
 
                 <div class="historial-lista" id="historialContainer">
-                    <p id="historialCargando" class="hist-mensaje">Cargando historial...</p>
-                    <p id="historialVacio" class="hist-mensaje" style="display: none;">
-                        <i class="fa-solid fa-clock-rotate-left"></i><br>
-                        No hay registros en tu historial.
-                    </p>
+                    <p>Cargando historial...</p>
                 </div>
 
             </section>
