@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="URL">
-    <title>Bibliocontrol</title>
+    <meta charset="UTF-8">
+    <title>Bibliocontrol - Inicio</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
     <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/layout.css">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -15,7 +14,6 @@
 <body>
 
 <div class="dashboard-container">
-
     <aside class="sidebar">
         <nav class="menu">
             <a href="inicio.html" class="logo">
@@ -32,7 +30,6 @@
     </aside>
 
     <div class="dashboard-body">
-        
         <header class="topbar">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Buscar libros...">
@@ -41,21 +38,21 @@
         </header>
 
         <main class="dashboard">
-
             <section class="content-area">
                 <div class="section-header">
                     <h3>Categorías</h3>
                     <button class="btn-ver" id="btnVerTodas">Ver Todas</button>
                 </div>
                 
+                <!-- Nota: data-categoria debe coincidir con los nombres exactos de tu tabla categorias -->
                 <div class="categorias" id="categoriasContainer">
-                    <a class="categoria novela" data-categoria="novelas"><span>Novelas</span></a>
-                    <a class="categoria educacion" data-categoria="educacion"><span>Educación</span></a>
-                    <a class="categoria ciencia" data-categoria="ciencia"><span>Ciencia</span></a>
-                    <a class="categoria historia" data-categoria="historia"><span>Historia</span></a>
-                    <a class="categoria infantil" data-categoria="infantil"><span>Infantil</span></a>
-                    <a class="categoria ficcion" data-categoria="ficcion"><span>Ficción</span></a>
-                    <a class="categoria biblio" data-categoria="bibliografia"><span>Bibliografía</span></a>
+                    <a class="categoria novela" data-categoria="Novelas"><span>Novelas</span></a>
+                    <a class="categoria educacion" data-categoria="Educación"><span>Educación</span></a>
+                    <a class="categoria ciencia" data-categoria="Ciencia"><span>Ciencia</span></a>
+                    <a class="categoria historia" data-categoria="Historia"><span>Historia</span></a>
+                    <a class="categoria infantil" data-categoria="Infantil"><span>Infantil</span></a>
+                    <a class="categoria ficcion" data-categoria="Ficción"><span>Ficción</span></a>
+                    <a class="categoria biblio" data-categoria="Bibliografía"><span>Bibliografía</span></a>
                 </div>
 
                 <div class="section-header">
@@ -63,13 +60,13 @@
                     <button class="btn-ver">Ver Todos</button>
                 </div>
 
+                <!-- ID crítico: el JS inyecta aquí los libros -->
                 <div class="productos" id="productosContainer">
-                    <!-- Los libros se cargarán dinámicamente desde Supabase -->
+                    <!-- Los libros se cargarán dinámicamente -->
                 </div>
             </section>
 
             <aside class="dashboard-sidebar">
-                
                 <div class="calendario-panel">
                     <h4>Calendario de Devoluciones</h4>
                     <div class="calendario">
@@ -85,16 +82,14 @@
                         <p id="devolucionesCargando">Cargando...</p>
                     </div>
                 </div>
-
             </aside>
-
         </main>
     </div>
 </div>
-<script type="module" src="js/api.js"></script>
-<script>
-    import { initInicio } from './js/api.js';
-    document.addEventListener('DOMContentLoaded', initInicio);
+
+<script type="module">
+    import { initInicio } from '../js/api-usuario.js';
+    initInicio();
 </script>
 </body>
 </html>

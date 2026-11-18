@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang='es'>
+<html lang="es">
 <head>
-    <meta charset='UTF-8'>
+    <meta charset="UTF-8">
     <title>Configuración - BiblioControl</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
-    <link rel='stylesheet' href='../css/variables.css'>
-    <link rel='stylesheet' href='../css/admin.css'>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -26,6 +27,16 @@
                 <li><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
                 <li class="active"><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
             </ul>
+
+            <!-- ===== PIE DEL SIDEBAR: modo oscuro + cerrar sesión ===== -->
+            <div class="sidebar-footer">
+                <button type="button" id="btnDarkMode" class="btn-icon" title="Cambiar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" id="btnLogout" class="btn-icon btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </nav>
     </aside>
 
@@ -35,26 +46,28 @@
             <!-- ===== PERFIL DEL ADMINISTRADOR ===== -->
             <section class="content-area">
                 <h2>Configuración</h2>
+
                 <div class="section-header">
-                    <i class="fa-solid fa-user"></i> <span id="admin-nombre">Nombre del Administrador</span>
-               <span id="admin-correo">admin@gmail.com
+                    <i class="fa-solid fa-user"></i>
+                    <span id="admin-nombre">Nombre del Administrador</span>
+                    <span id="admin-correo">admin@gmail.com</span>
                 </div>
-                
-                <div >
+
+                <div>
                     <h4>Cambiar Nombre</h4>
                 </div>
-                <form class="form-group-inline" action="perfil_actualizar.php" method="POST">
-                    <input type="hidden" name="id_admin" value="">
-                    <input type="text" name="nombre" placeholder='Nombre' class="form-input" required>
+                <form id="form-perfil" class="form-group-inline">
+                    <input type="text" name="nombre" placeholder="Nuevo nombre" class="form-input" required>
                     <button type="submit" class="btn-admin">Guardar Cambios</button>
                 </form>
-             <div>
+
+                <div>
                     <h4>Cambiar Contraseña</h4>
                 </div>
-                <form class="form-group-inline" action="password_cambiar.php" method="POST">
-                    <input type="password" name="password_actual" placeholder='Contraseña actual' class="form-input" required>
-                    <input type="password" name="password_nueva" placeholder='Nueva contraseña' class="form-input" required>
-                    <input type="password" name="password_confirmar" placeholder='Confirmar nueva contraseña' class="form-input" required>
+                <form id="form-password" class="form-group-inline">
+                    <input type="password" name="password_actual" placeholder="Contraseña actual" class="form-input">
+                    <input type="password" name="password_nueva" placeholder="Nueva contraseña" class="form-input" required>
+                    <input type="password" name="password_confirmar" placeholder="Confirmar nueva contraseña" class="form-input" required>
                     <button type="submit" class="btn-admin">Cambiar Contraseña</button>
                 </form>
             </section>
@@ -64,22 +77,36 @@
                 <div class="section-header">
                     <h4><i class="fa-solid fa-sliders"></i> Parámetros del Sistema</h4>
                 </div>
-                <form class="form-group-inline" action="config_guardar.php" method="POST">
-                    <input type="number" name="dias_prestamo" placeholder='Días de préstamo (ej: 14)' min="1" class="form-input">
-                    <input type="number" name="max_libros_cliente" placeholder='Máx. libros por cliente (ej: 3)' min="1" class="form-input">
-                    <input type="number" name="multa_diaria" placeholder='Multa diaria ($)' step="0.01" min="0" class="form-input">
+                <form id="form-parametros" class="form-group-inline">
+                    <input type="number" name="dias_prestamo" placeholder="Días de préstamo (ej: 14)" min="1" class="form-input">
+                    <input type="number" name="max_libros_cliente" placeholder="Máx. libros por cliente (ej: 3)" min="1" class="form-input">
+                    <input type="number" name="multa_diaria" placeholder="Multa diaria ($)" step="0.01" min="0" class="form-input">
                     <button type="submit" class="btn-admin">Guardar Parámetros</button>
                 </form>
-                <!-- Requiere tabla config(id, clave, valor). Ver nota abajo. -->
+            </section>
+
+            <!-- ===== ZONA DE PELIGRO ===== -->
+            <section class="content-area content-danger">
+                <div class="section-header">
+                    <h4><i class="fa-solid fa-triangle-exclamation"></i> Zona de Peligro</h4>
+                </div>
+                <p class="text-muted">Acciones irreversibles sobre los datos de la biblioteca.</p>
+                <button type="button" id="btnLimpiarMultasPagadas" class="btn-admin btn-danger">
+                    <i class="fa-solid fa-broom"></i> Eliminar multas pagadas
+                </button>
+                <button type="button" id="btnEliminarPrestamosDevueltos" class="btn-admin btn-danger">
+                    <i class="fa-solid fa-trash-can"></i> Eliminar préstamos devueltos
+                </button>
             </section>
 
         </main>
     </div>
 </div>
 
-<script>
-    import { initConfig } from './js/api.js';
-    document.addEventListener('DOMContentLoaded', initConfig);
+<script type="module">
+    import { initConfig, initSidebarAdmin } from '../js/api-admin.js';
+    initConfig();
+    initSidebarAdmin();
 </script>
 </body>
 </html>

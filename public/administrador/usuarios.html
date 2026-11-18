@@ -6,6 +6,7 @@
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
     <link rel='stylesheet' href='../css/variables.css'>
     <link rel='stylesheet' href='../css/admin.css'>
+    <link rel="stylesheet" href="../css/dark-mode.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -14,17 +15,26 @@
 <div class="dashboard-container">
     <aside class="sidebar">
         <nav class="menu">
-            <a href="admin.html" class="logo">
-                <img src="../imagenes/isl.png" alt="Logo">
+            <a href="inicio-admin.html" class="logo">
+                <abg src="../imagenes/isl.png" alt="Logo">
             </a>
             <ul class="menu-items">
                 <li><a href="inicio-admin.html"><i class="fa-solid fa-house"></i> <span>Inicio</span></a></li>
-                <li><a href="libros.html"><i class="fa-solid fa-book"></i> <span>Libros</span></a></li>
+                <li><a href="libros.html"><i class="fa-solid fa-book"></i> <span>abLibros</span></a></li>
                 <li class="active"><a href="usuarios.html"><i class="fa-solid fa-users"></i> <span>Usuarios</span></a></li>
                 <li><a href="prestamos.html"><i class="fa-solid fa-arrows-rotate"></i> <span>Préstamos</span></a></li>
                 <li><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
                 <li><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
             </ul>
+
+            <div class="sidebar-footer">
+                <button type="button" id="btnDarkMode" class="btn-icon" title="Cambiar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" id="btnLogout" class="btn-icon btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </nav>
     </aside>
 
@@ -37,10 +47,10 @@
                 <div class="section-header">
                     <h4><i class="fa-solid fa-user-plus"></i> Crear Nuevo Cliente</h4>
                 </div>
-                <form class="form-group-inline" action="cliente_guardar" method="POST">
-                    <input type="text" name="nombre" placeholder='Nombre' class="form-input" required>
-                    <input type="email" name="correo" placeholder='Correo electrónico' class="form-input" required>
-                    <input type="password" name="contraseña" placeholder='Contraseña' class="form-input" required>
+                <form id="form-registrar-cliente" class="form-group-inline">
+                    <input type="text" name="nombre" placeholder="Nombre" class="form-input" required>
+                    <input type="email" name="correo" placeholder="Correo electrónico" class="form-input" required>
+                    <input type="password" name="contraseña" placeholder="Contraseña" class="form-input" required>
                     <button type="submit" class="btn-admin">Registrar Cliente</button>
                 </form>
             </section>
@@ -56,11 +66,11 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tabla-clientes">
-                            <!-- SELECT id, nombre, correo FROM clientes -->
+                            <!-- Se llena dinámicamente -->
                         </tbody>
                     </table>
                 </div>
@@ -71,10 +81,10 @@
                 <div class="section-header">
                     <h4><i class="fa-solid fa-user-shield"></i> Crear Nuevo Administrador</h4>
                 </div>
-                <form class="form-group-inline" action="admin_guardar.php" method="POST">
-                    <input type="text" name="nombre" placeholder='Nombre' class="form-input" required>
-                    <input type="email" name="correo" placeholder='Correo electrónico' class="form-input" required>
-                    <input type="password" name="contraseña" placeholder='Contraseña' class="form-input" required>
+                <form id="form-registrar-admin" class="form-group-inline">
+                    <input type="text" name="nombre" placeholder="Nombre" class="form-input" required>
+                    <input type="email" name="correo" placeholder="Correo electrónico" class="form-input" required>
+                    <input type="password" name="contraseña" placeholder="Contraseña" class="form-input" required>
                     <button type="submit" class="btn-admin">Registrar Administrador</button>
                 </form>
             </section>
@@ -90,11 +100,11 @@
                                 <th scope="col">ID</th>
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Correo</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
                         <tbody id="tabla-administradores">
-                            <!-- SELECT id, nombre, correo FROM administradores -->
+                            <!-- Se llena dinámicamente -->
                         </tbody>
                     </table>
                 </div>
@@ -103,9 +113,11 @@
         </main>
     </div>
 </div>
-<script>
-    import { initUsuarios } from './js/api.js';
-    document.addEventListener('DOMContentLoaded', initUsuarios);
+
+<script type="module">
+    import { initUsuarios, initSidebarAdmin } from '../js/api-admin.js';
+    initUsuarios();
+    initSidebarAdmin();
 </script>
 </body>
 </html>

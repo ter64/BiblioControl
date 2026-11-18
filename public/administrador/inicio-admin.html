@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BiblioControl</title>
+    <title>BiblioControl - Panel Admin</title>
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
-    <link rel='stylesheet' href='../css/variables.css'>
+    <link rel="stylesheet" href="../css/variables.css">
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/dark-mode.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -15,7 +16,7 @@
 <div class="dashboard-container">
     <aside class="sidebar">
         <nav class="menu">
-            <a href="admin.html" class="logo">
+            <a href="inicio-admin.html" class="logo">
                 <img src="../imagenes/isl.png" alt="Logo">
             </a>
             <ul class="menu-items">
@@ -26,6 +27,16 @@
                 <li><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
                 <li><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
             </ul>
+
+            <!-- ===== PIE DEL SIDEBAR ===== -->
+            <div class="sidebar-footer">
+                <button type="button" id="btnDarkMode" class="btn-icon" title="Cambiar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" id="btnLogout" class="btn-icon btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </nav>
     </aside>
 
@@ -69,7 +80,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tabla-mas-prestados">
-                                <!-- SELECT l.titulo, COUNT(*) AS prestamos FROM prestamos p JOIN libros l ON p.id_libro = l.id GROUP BY l.id ORDER BY prestamos DESC LIMIT 5 -->
+                                <!-- Se llena dinámicamente -->
                             </tbody>
                         </table>
                     </div>
@@ -90,7 +101,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tabla-estados">
-                                    <!-- SELECT estado, COUNT(*) AS cantidad FROM prestamos GROUP BY estado -->
+                                    <!-- Se llena dinámicamente -->
                                 </tbody>
                             </table>
                         </div>
@@ -101,7 +112,7 @@
                             <h4>Actividad reciente</h4>
                         </div>
                         <ul class="panel-list" id="lista-actividad">
-                            
+                            <!-- Se llena dinámicamente -->
                         </ul>
                     </div>
 
@@ -111,9 +122,11 @@
         </main>
     </div>
 </div>
-<script>
-    import { initInicio } from './js/api.js';
-    document.addEventListener('DOMContentLoaded', initInicio);
+
+<script type="module">
+    import { initInicio, initSidebarAdmin } from '../js/api-admin.js';
+    initInicio();
+    initSidebarAdmin();
 </script>
 </body>
 </html>

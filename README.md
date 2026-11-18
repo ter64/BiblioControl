@@ -4,6 +4,7 @@ Sistema web diseñado para facilitar y optimizar la gestión integral de una bib
 
 * **Institución:** Centro Educativo Nonogasta (C.E.N.)
 * **Integrantes:** Terrazas Esther, Ramirez Edit, Horca Anahi
+* **Curso y division:** 5° 2°
 
 ## Funcionalidades Principales
 
@@ -28,11 +29,18 @@ BiblioControl/
 │   ├── usuario/             # Vistas del lector
 │   ├── css/                 # Hojas de estilo
 │   ├── imagenes/            # Recursos gráficos y portadas de libros
+│   ├── api/            
+│   │   └── config.js        # Inicialización del cliente Supabase
+│   ├── bd/            
+│   │   └── supabase.sql     # Codigo para ejecutar en Supabase SQL
 │   ├── js/
-│   │   ├── api.js           # Consultas y lógica de comunicación con Supabase
-│   │   ├── config.js        # Inicialización del cliente Supabase
+│   │   ├── api-admin.js     # Consultas y lógica de comunicación con Supabase
+│   │   ├── api-usuario.js
+│   │   ├── recuperar.js
 │   │   └── main.js          # Manejo del DOM, eventos y animaciones de interfaz
 │   └── index.html           # Pantalla principal de Inicio de Sesión y Registro
-├── .env.example             # Plantilla de variables de entorno requeridas
 ├── .gitignore               # Archivos excluidos del repositorio
 └── README.md                # Documentación del proyecto
+
+## Diagrama
+
