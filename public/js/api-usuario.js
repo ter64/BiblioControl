@@ -57,12 +57,37 @@ async function getUser() {
 
 async function getCliente(userId) {
     if (_cliente?.auth_user_id === userId) return _cliente;
-    const { data, error } = await supabase
+
+    const buscar = () => supabase
         .from('clientes')
         .select('id_cliente, auth_user_id, nombre, correo_electronico')
         .eq('auth_user_id', userId)
         .maybeSingle();
-    if (error || !data) return null;
+
+    let { data, error } = await buscar();
+    if (error) { console.warn('Error buscando el perfil:', error.message); return null; }
+
+    if (!data) {
+        const user = await getUser();
+        const { error: errRpc } = await supabase.rpc('asegurar_perfil_cliente', {
+            p_nombre: user?.user_metadata?.nombre ?? null
+        });
+
+        if (errRpc) {
+            console.warn('asegurar_perfil_cliente no disponible:', errRpc.message);
+            if (user) {
+                await supabase.from('clientes').insert({
+                    auth_user_id: userId,
+                    nombre: user.user_metadata?.nombre || user.email.split('@')[0],
+                    correo_electronico: user.email.toLowerCase(),
+                    contraseña: 'gestionada-por-supabase-auth'
+                });
+            }
+        }
+        ({ data } = await buscar());
+    }
+
+    if (!data) return null;
     _cliente = data;
     return _cliente;
 }
@@ -115,6 +140,7 @@ export function initSidebarUsuario() {
         });
     });
 }
+
 async function crearPrestamo(idCliente, idLibro) {
     return supabase
         .from('prestamos')
@@ -515,7 +541,7 @@ function configurarFormReserva(idCliente) {
     const select = document.getElementById('selectLibroReserva');
     const inputFecha = document.getElementById('inputFechaLimite');
     const btn = document.getElementById('btnCrearReserva');
-    if (!select || !btn || btn.dataset.listo) return;   // evita registrar el click dos veces
+    if (!select || !btn || btn.dataset.listo) return; 
     btn.dataset.listo = '1';
 
     if (inputFecha) {
@@ -737,12 +763,16 @@ export async function initConfig() {
     setText('userName', cliente?.nombre ?? user.email?.split('@')[0]);
     setText('userEmail', user.email);
 
+    // cambiar nombre
     const btnNombre = document.getElementById('btnGuardarNombre');
     const inputNombre = document.getElementById('inputNombre');
     if (inputNombre && cliente) inputNombre.value = cliente.nombre;
 
-    if (btnNombre && inputNombre && cliente) {
+    if (btnNombre && inputNombre) {
         btnNombre.addEventListener('click', async () => {
+            if (!cliente) {
+                return alert('No se encontró tu perfil de cliente. Cerrá sesión y entrá con una cuenta de cliente.');
+            }
             const nombre = inputNombre.value.trim();
             if (!nombre) return alert('El nombre no puede estar vacío.');
 
@@ -750,7 +780,7 @@ export async function initConfig() {
                 .from('clientes').update({ nombre }).eq('id_cliente', cliente.id_cliente);
             if (error) return alert('Error: ' + error.message);
 
-            cliente.nombre = nombre; 
+            cliente.nombre = nombre;
             setText('userName', nombre);
             alert('Nombre actualizado.');
         });
