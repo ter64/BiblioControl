@@ -47,3 +47,4 @@ BiblioControl/
 
 ## Diagrama
 
+![DIAGRAMA] (/public/imagenes/diagramaa.jpeg)

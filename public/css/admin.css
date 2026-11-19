@@ -27,7 +27,6 @@
     font-size: 14px;
 }
 
-/* ---------- Inicio: tarjetas de resumen ---------- */
 .cards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -61,7 +60,6 @@
     color: #c0392b;
 }
 
-/* ---------- Inicio: subgrids ---------- */
 .subgrids-container {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -92,7 +90,6 @@
     border-bottom: none;
 }
 
-/* ---------- Tablas ---------- */
 .admin-table-wrapper {
     overflow-x: auto;
 }
@@ -121,7 +118,6 @@
     background: #faf5ea;
 }
 
-/* botones de la columna "Acciones" (generados por JS) */
 .admin-table button {
     padding: 6px 12px;
     border: none;
@@ -138,7 +134,6 @@
     background: var(--color-dos);
 }
 
-/* ---------- Formularios ---------- */
 .form-group-inline {
     display: flex;
     flex-wrap: wrap;
@@ -188,7 +183,6 @@
     gap: 10px;
 }
 
-/* ---------- Configuración: zona de peligro ---------- */
 .content-danger {
     border: 1px solid #f0c4be;
 }
@@ -208,6 +202,27 @@
 .text-muted {
     color: #888;
     font-size: 14px;
+}
+
+.estado-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    background: var(--color-menu-bg);
+    color: var(--color-uno);
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.estado-activo,
+.estado-pagada { background: #e3f4e1; color: #2e7d32; }
+.estado-vencido,
+.estado-pendiente { background: #fde4e1; color: #c0392b; }
+.estado-devuelto { background: var(--color-menu-bg); color: #777; }
+.estado-reservado { background: var(--color-menu-active); color: var(--color-dos); }
+
+.admin-table td button + button {
+    margin-left: 6px;
 }
 
 /* ---------- Responsive ---------- */

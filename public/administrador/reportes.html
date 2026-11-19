@@ -6,7 +6,6 @@
     <link rel="icon" href="../imagenes/logo.png" type="image/png" sizes="60x60">
     <link rel='stylesheet' href='../css/variables.css'>
     <link rel='stylesheet' href='../css/admin.css'>
-    <link rel="stylesheet" href="../css/dark-mode.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -15,7 +14,7 @@
 <div class="dashboard-container">
     <aside class="sidebar">
         <nav class="menu">
-            <a href="admin.html" class="logo">
+            <a href="inicio-admin.html" class="logo">
                 <img src="../imagenes/isl.png" alt="Logo">
             </a>
             <ul class="menu-items">
@@ -26,6 +25,14 @@
                 <li class="active"><a href="reportes.html"><i class="fa-solid fa-chart-simple"></i> <span>Reportes</span></a></li>
                 <li><a href="configuracion.html"><i class="fa-solid fa-gear"></i> <span>Configuración</span></a></li>
             </ul>
+            <div class="sidebar-footer">
+                <button type="button" id="btnDarkMode" class="btn-icon" title="Cambiar tema">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button type="button" id="btnLogout" class="btn-icon btn-logout" title="Cerrar sesión">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </div>
         </nav>
     </aside>
 
@@ -39,7 +46,6 @@
                 <!-- ===== MULTAS ===== -->
                 <form class="form-group-inline" action="multa_guardar.php" method="POST">
                     <select name="id_prestamo" class="form-input" required>
-                        <!-- SELECT p.id, CONCAT(cl.nombre, ' — ', l.titulo) AS descripcion FROM prestamos p JOIN clientes cl ON p.id_cliente = cl.id JOIN libros l ON p.id_libro = l.id WHERE p.estado != 'Devuelto' ORDER BY p.fecha_prestamo DESC -->
                     </select>
                     <input type="date" name="fecha_multa" placeholder='Fecha multa' class="form-input" required>
                     <input type="number" name="importe" placeholder='Importe' step="0.01" min="0" class="form-input" required>
@@ -64,7 +70,6 @@
                             </tr>
                         </thead>
                         <tbody id="tabla-multas">
-                            <!-- SELECT m.id, CONCAT(cl.nombre, ' — ', l.titulo) AS prestamo, m.fecha_multa, m.importe, m.estado FROM multas m JOIN prestamos p ON m.id_prestamo = p.id JOIN clientes cl ON p.id_cliente = cl.id JOIN libros l ON p.id_libro = l.id ORDER BY m.fecha_multa DESC -->
                         </tbody>
                     </table>
                 </div>

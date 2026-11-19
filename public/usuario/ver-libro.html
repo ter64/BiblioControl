@@ -39,12 +39,10 @@
                         <a class="btn" href="inicio.html"><i class="fa-solid fa-arrow-left"></i></a>
                     </div>
 
-                    <!-- Estado: cargando -->
                     <div class="book-loading" id="bookCargando">
                         <p>Cargando detalle del libro...</p>
                     </div>
 
-                    <!-- Estado: no encontrado -->
                     <div class="book-error" id="bookError" style="display: none;">
                         <p>Libro no encontrado.</p>
                         <a href="inicio.html" class="btn">Volver al inicio</a>
@@ -82,10 +80,8 @@
                             </div>
 
                             <div class="book-price" id="bookPrice">$0.00</div>
-                            <!-- MODIFICADO: stock visible desde la BD -->
                             <div class="book-stock" id="bookStock">Stock: --</div>
 
-                            <!-- MODIFICADO: ahora solicita préstamo y genera ticket -->
                             <button class="btn-pay-submit" id="btnPagar">Solicitar y generar ticket</button>
                             <p id="msgPagar"></p>
                         </div>
@@ -103,7 +99,7 @@
     </div>
 </div>
 
-<!-- Ticket: solo se muestra al imprimir -->
+<!-- Ticket solo se muestra al imprimir -->
 <div id="ticket">
     <div class="ticket-cabecera">
         <h2>BiblioControl</h2>

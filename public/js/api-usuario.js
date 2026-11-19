@@ -1,8 +1,5 @@
 import { supabase } from '../api/config.js';
 
-/* =========================================================
-   UTILIDADES
-   ========================================================= */
 function escapeHtml(text) {
     if (text === null || text === undefined) return '';
     return String(text)
@@ -13,7 +10,6 @@ function escapeHtml(text) {
         .replace(/'/g, '&#39;');
 }
 
-// 'YYYY-MM-DD' -> Date en hora local (new Date('2026-11-18') en Argentina daba el día anterior)
 function parseFecha(fechaStr) {
     if (!fechaStr) return null;
     if (fechaStr.length === 10) {
@@ -29,7 +25,6 @@ function formatearFecha(fechaStr) {
     return f.toLocaleDateString('es-AR', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-// 'YYYY-MM-DD' de hoy (+ días) en hora local (toISOString usa UTC y adelanta el día a la noche)
 function hoyMasDias(dias = 0) {
     const f = new Date();
     f.setDate(f.getDate() + dias);
@@ -43,16 +38,12 @@ function setText(id, texto) {
     if (el) el.textContent = texto ?? '';
 }
 
-// Muestra el mensaje en el elemento indicado; si no existe, usa alert
 function avisar(idMsg, texto) {
     const el = idMsg ? document.getElementById(idMsg) : null;
     if (el) el.textContent = texto;
     else alert(texto);
 }
 
-/* =========================================================
-   SESIÓN Y CLIENTE
-   ========================================================= */
 let _user = null;
 let _cliente = null;
 
@@ -84,16 +75,10 @@ function irALogin() {
     window.location.href = '../index.html';
 }
 
-// Pone al día préstamos vencidos / reservas expiradas (función SQL actualizar_estados)
 async function refrescarEstados() {
     try { await supabase.rpc('actualizar_estados'); } catch (e) { /* no es crítico */ }
 }
 
-/* =========================================================
-   BARRA LATERAL (cerrar sesión + modo oscuro)
-   Se llama sola desde cada init, no hace falta tocar los HTML.
-   Ajustá 'dark-mode' y 'tema' a lo que use tu dark-mode.css / api-admin.js.
-   ========================================================= */
 const CLASE_OSCURO = 'dark-mode';
 const CLAVE_TEMA = 'tema';
 
@@ -103,7 +88,6 @@ function pintarIconoTema(btn, oscuro) {
 }
 
 export function initSidebarUsuario() {
-    // tema guardado
     let oscuro = false;
     try { oscuro = localStorage.getItem(CLAVE_TEMA) === 'oscuro'; } catch (e) { /* sin storage */ }
     document.body.classList.toggle(CLASE_OSCURO, oscuro);
@@ -119,7 +103,6 @@ export function initSidebarUsuario() {
         });
     }
 
-    // cerrar sesión (botón del sidebar y link de Configuración)
     document.querySelectorAll('#btnLogout, .btn-logout').forEach(btn => {
         if (btn.dataset.listo) return;
         btn.dataset.listo = '1';
@@ -132,12 +115,6 @@ export function initSidebarUsuario() {
         });
     });
 }
-
-/* =========================================================
-   PRÉSTAMOS Y RESERVAS (lógica compartida)
-   ========================================================= */
-
-// El stock, la fecha de devolución y el máximo de libros los controla la base de datos (triggers)
 async function crearPrestamo(idCliente, idLibro) {
     return supabase
         .from('prestamos')
@@ -151,7 +128,6 @@ async function crearPrestamo(idCliente, idLibro) {
         .single();
 }
 
-// Crea la reserva o reactiva una cancelada/expirada. Devuelve { error, yaActiva }
 async function crearOReactivarReserva(idCliente, idLibro, fechaLimite) {
     const { data: previa, error: errPrevia } = await supabase
         .from('reservas')
@@ -188,9 +164,6 @@ function pintarFavorito(btn, activo) {
     if (icono) icono.className = activo ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
 }
 
-/* =========================================================
-   INICIO
-   ========================================================= */
 const filtrosInicio = { categoria: null, busqueda: '' };
 
 export async function initInicio() {
@@ -240,13 +213,12 @@ function configurarBusqueda() {
         });
     }
 
-    // un solo listener para todas las categorías (también las que se cargan después)
     if (catContainer) {
         catContainer.addEventListener('click', (e) => {
             const el = e.target.closest('.categoria');
             if (!el) return;
             const id = Number(el.dataset.categoria);
-            if (filtrosInicio.categoria === id) {          // segundo click = quitar filtro
+            if (filtrosInicio.categoria === id) { 
                 filtrosInicio.categoria = null;
                 marcarCategoria(null);
             } else {
@@ -279,7 +251,6 @@ async function cargarLibros() {
 
     if (filtrosInicio.categoria) query = query.eq('id_categoria', filtrosInicio.categoria);
 
-    // el buscador dice "título o subtítulo"
     const texto = filtrosInicio.busqueda.replace(/[%,()*]/g, ' ').trim();
     if (texto) query = query.or(`titulo.ilike.%${texto}%,subtitulo.ilike.%${texto}%`);
 
@@ -297,7 +268,6 @@ async function renderizarLibros(libros) {
     if (!contenedor) return;
     if (!libros?.length) { contenedor.innerHTML = '<p>No hay resultados.</p>'; return; }
 
-    // el botón no va dentro del <a>: así no navega al tocar "Pedir" o el corazón
     contenedor.innerHTML = libros.map(libro => `
         <div class="producto">
             <a class="producto-link" href="ver-libro.html?id=${libro.id_libro}">
@@ -330,7 +300,6 @@ async function renderizarLibros(libros) {
     marcarFavoritos(contenedor);
 }
 
-// Pinta el corazón de los libros que ya son favoritos
 async function marcarFavoritos(contenedor) {
     const user = await getUser();
     if (!user) return;
@@ -444,9 +413,6 @@ async function cargarDevoluciones() {
     `).join('');
 }
 
-/* =========================================================
-   FAVORITOS
-   ========================================================= */
 export async function initFavoritos() {
     const contenedor = document.getElementById('favListaContainer');
     if (!contenedor) return;
@@ -495,9 +461,6 @@ export async function quitarFavorito(id) {
     initFavoritos();
 }
 
-/* =========================================================
-   RESERVAS
-   ========================================================= */
 export async function initReservas() {
     const contenedor = document.getElementById('reservasContainer');
     if (!contenedor) return;
@@ -595,15 +558,11 @@ export async function cancelarReserva(id) {
         .eq('id_reserva', id);
     if (error) return alert('Error: ' + error.message);
 
-    // solo recarga la lista (volver a llamar initReservas duplicaba el botón "Reservar")
     const user = await getUser();
     const idCliente = user ? await getClienteId(user.id) : null;
     if (idCliente) cargarMisReservas(idCliente);
 }
 
-/* =========================================================
-   HISTORIAL + NOTIFICACIONES
-   ========================================================= */
 export async function initHistorial() {
     const contenedor = document.getElementById('historialContainer');
     if (!contenedor) return;
@@ -765,9 +724,6 @@ function renderPrestamosHistorial(contenedor, data, estado) {
     });
 }
 
-/* =========================================================
-   CONFIGURACIÓN
-   ========================================================= */
 export async function initConfig() {
     if (!document.getElementById('userName')) return;
 
@@ -781,7 +737,6 @@ export async function initConfig() {
     setText('userName', cliente?.nombre ?? user.email?.split('@')[0]);
     setText('userEmail', user.email);
 
-    // cambiar nombre
     const btnNombre = document.getElementById('btnGuardarNombre');
     const inputNombre = document.getElementById('inputNombre');
     if (inputNombre && cliente) inputNombre.value = cliente.nombre;
@@ -795,13 +750,12 @@ export async function initConfig() {
                 .from('clientes').update({ nombre }).eq('id_cliente', cliente.id_cliente);
             if (error) return alert('Error: ' + error.message);
 
-            cliente.nombre = nombre;               // actualiza la copia en memoria
+            cliente.nombre = nombre; 
             setText('userName', nombre);
             alert('Nombre actualizado.');
         });
     }
 
-    // cambiar contraseña (ahora verifica la actual)
     const btnPass = document.getElementById('btnCambiarPass');
     if (btnPass) {
         btnPass.addEventListener('click', async () => {
@@ -833,9 +787,6 @@ export async function initConfig() {
     }
 }
 
-/* =========================================================
-   VER LIBRO / RESERVAR / TICKET
-   ========================================================= */
 function mostrarErrorLibro() {
     const cargando = document.getElementById('bookCargando');
     const error = document.getElementById('bookError');
@@ -908,7 +859,6 @@ export async function initVerLibro() {
     await configurarFavorito(id);
 }
 
-// Botón "Solicitar y generar ticket"
 function configurarSolicitud(id, libro) {
     const btnPagar = document.getElementById('btnPagar');
     if (!btnPagar) return;
@@ -924,14 +874,12 @@ function configurarSolicitud(id, libro) {
 
         btnPagar.disabled = true;
 
-        // el stock y la fecha de devolución los resuelve la base de datos
         const { data: prestamo, error } = await crearPrestamo(cliente.id_cliente, id);
         if (error) {
             btnPagar.disabled = false;
             return avisar('msgPagar', 'Error: ' + error.message);
         }
 
-        // si tenía una reserva pendiente de este libro, queda confirmada
         await supabase
             .from('reservas')
             .update({ estado: 'confirmado' })
@@ -939,7 +887,6 @@ function configurarSolicitud(id, libro) {
             .eq('id_libro', id)
             .eq('estado', 'pendiente');
 
-        // refresca el stock mostrado (también reactiva o bloquea el botón según corresponda)
         const { data: actual } = await supabase.from('libros').select('stock').eq('id_libro', id).maybeSingle();
         pintarStock(actual?.stock ?? 0);
 
@@ -957,7 +904,6 @@ function configurarSolicitud(id, libro) {
     });
 }
 
-// Botón "Reservar" (solo avisa cuando haya stock, sin crear préstamo)
 async function configurarReserva(id) {
     const btnReservar = document.getElementById('btnReservar');
     if (!btnReservar) return;
@@ -1011,7 +957,6 @@ async function configurarReserva(id) {
     });
 }
 
-// Botón de favorito
 async function configurarFavorito(id) {
     const btnFav = document.getElementById('btnFavorito');
     if (!btnFav) return;
@@ -1049,9 +994,6 @@ async function configurarFavorito(id) {
     });
 }
 
-/* =========================================================
-   TICKET DE RETIRO
-   ========================================================= */
 function generarTicket({ codigo, nombre, correo, libro, categoria, fechaPrestamo, fechaVencimiento }) {
     setText('tkCodigo', codigo);
     setText('tkNombre', nombre);

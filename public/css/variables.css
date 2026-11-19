@@ -14,7 +14,6 @@
     --color-logout: #ff4d4d;
 }
 
-/* ---------- Reset + base ---------- */
 * {
     margin: 0;
     padding: 0;
@@ -45,7 +44,7 @@ img {
     display: block;
 }
 
-/* ---------- Estructura general ---------- */
+/* Estructura general */
 .dashboard-container {
     display: flex;
     min-height: 100vh;
@@ -56,7 +55,6 @@ img {
     min-width: 0;
 }
 
-/* tarjeta blanca (la usan admin y usuario) */
 .content-area {
     background: var(--color-principal);
     border-radius: 25px;
@@ -71,7 +69,6 @@ img {
     margin-bottom: 15px;
 }
 
-/* ---------- MENÚ LATERAL (compartido) ---------- */
 .sidebar {
     width: 260px;
     background-color: #ffffff;
@@ -100,7 +97,6 @@ img {
     object-fit: contain;
 }
 
-/* el menú ocupa el alto del sidebar pero los items NO se estiran */
 .menu {
     display: flex;
     flex-direction: column;
@@ -150,7 +146,6 @@ img {
     color: rgb(104, 67, 28);
 }
 
-/* ---------- Pie del menú: modo oscuro + cerrar sesión ---------- */
 .sidebar-footer {
     margin-top: auto;
     display: flex;

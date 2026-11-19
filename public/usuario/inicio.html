@@ -51,7 +51,6 @@
                     <h3>Categorías</h3>
                     <button class="btn-ver" id="btnVerTodas">Ver Todas</button>
                 </div>
-                <!-- MODIFICADO: se rellena desde la tabla 'categorias' de Supabase -->
                 <div class="categorias" id="categoriasContainer">
                     <span class="cargando-categorias">Cargando categorías...</span>
                 </div>
@@ -60,8 +59,6 @@
                     <h3>Libros Recomendados</h3>
                     <button class="btn-ver" id="btnVerTodosLibros">Ver Todos</button>
                 </div>
-                <!-- MODIFICADO: cada tarjeta usa los campos de la tabla 'libros'
-                     (titulo, subtitulo, precio, imagen_url) y su categoría -->
                 <div class="productos" id="productosContainer">
                     <p class="cargando-libros">Cargando libros...</p>
                 </div>
@@ -71,7 +68,6 @@
                 <div class="calendario-panel">
                     <h4>Calendario de Devoluciones</h4>
                     <div class="calendario">
-                        <!-- MODIFICADO: muestra fecha_devolucion_prevista de 'prestamos' del cliente -->
                         <div class="calendario-ver" id="calendarioContainer">
                             <span id="calendarioTexto">Cargando fechas previstas...</span>
                         </div>
@@ -80,7 +76,6 @@
 
                 <div class="devoluciones-panel">
                     <h4>Préstamos y Devoluciones</h4>
-                    <!-- MODIFICADO: muestra estado ('activo','vencido','devuelto') de 'prestamos' -->
                     <div class="devoluciones" id="devolucionesContainer">
                         <p id="devolucionesCargando">Cargando estado de préstamos...</p>
                     </div>
