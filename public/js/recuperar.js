@@ -1,4 +1,8 @@
-import { supabase } from '/api/config.js';
+import { supabase } from '../api/config.js';
+
+// Se leen al cargar el módulo: supabase-js borra el "#..." de la URL apenas lo procesa
+const hashInicial = new URLSearchParams(window.location.hash.substring(1));
+const enlaceConError = hashInicial.get('error_description');
 
 document.addEventListener('DOMContentLoaded', async () => {
     const paso1 = document.getElementById('paso1');
@@ -9,17 +13,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let { data } = await supabase.auth.getSession();
 
-    if (!data?.session && window.location.hash.includes('type=recovery')) {
-        const params = new URLSearchParams(window.location.hash.substring(1));
-        const token = params.get('access_token');
+    if (!data?.session && hashInicial.get('type') === 'recovery') {
+        const token = hashInicial.get('access_token');
         if (token) {
             const { error: errSet } = await supabase.auth.setSession({
                 access_token: token,
-                refresh_token: params.get('refresh_token')
+                refresh_token: hashInicial.get('refresh_token')
             });
-            if (!errSet) {
-                ({ data } = await supabase.auth.getSession());
-            }
+            if (!errSet) ({ data } = await supabase.auth.getSession());
         }
     }
 
@@ -36,29 +37,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (pass1 !== pass2) return alert('Las contraseñas no coinciden');
             if (pass1.length < 6) return alert('Mínimo 6 caracteres');
 
-            try {
-                const { error } = await supabase.auth.updateUser({ password: pass1 });
-                if (error) throw error;
+            btnAccion.disabled = true;
+            const { error } = await supabase.auth.updateUser({ password: pass1 });
 
-                await supabase.rpc('actualizar_password_seguro', { p_nueva: pass1 });
-
-                alert('Contraseña actualizada correctamente.');
-                await supabase.auth.signOut();
-                window.location.href = 'index.html';
-            } catch (error) {
-                alert('Error: ' + error.message);
+            if (error) {
+                btnAccion.disabled = false;
+                return alert('Error: ' + error.message);
             }
+
+            alert('Contraseña actualizada correctamente.');
+            await supabase.auth.signOut();
+            window.location.href = 'index.html';
         };
     } else {
+        if (enlaceConError) {
+            mensajeEstado.textContent = 'El enlace venció o no es válido. Pedí uno nuevo.';
+        }
+
         btnAccion.onclick = async () => {
             const email = document.getElementById('emailInput').value.trim();
             if (!email) return alert('Ingrese su correo');
 
+            btnAccion.disabled = true;
             const { error } = await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo: `${window.location.origin}/recuperar-password.html`
             });
 
             if (error) {
+                btnAccion.disabled = false;
                 alert('Error al enviar correo: ' + error.message);
             } else {
                 mensajeEstado.textContent = 'Correo enviado. Revisa tu bandeja de entrada.';

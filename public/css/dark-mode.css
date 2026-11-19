@@ -1,0 +1,134 @@
+body.dark-mode {
+    --color-principal: #1f1b16;
+    --color-secundario: #d9a066;
+    --color-border: #3a332b;
+    --shadow: 0 4px 12px rgba(0, 0, 0, .45);
+    --color-uno: #d2b48c;
+    --color-dos: #e8d5b7;
+    --color-tres: #f3e6d0;
+    --color-menu-bg: #2b251e;
+    --color-menu-active: #4a3a22;
+
+    color-scheme: dark;
+    background-image:
+        linear-gradient(rgba(18, 14, 10, .86), rgba(18, 14, 10, .86)),
+        url("../imagenes/fondo2.png");
+}
+
+body.dark-mode h5 { color: #d8c3a0; }
+
+body.dark-mode .sidebar {
+    background-color: #1a1611;
+    border-right-color: var(--color-border);
+}
+
+body.dark-mode .menu-items a:hover {
+    color: #fff;
+}
+
+body.dark-mode .logo img {
+    background: #fff;
+    border-radius: 14px;
+    padding: 6px;
+}
+
+body.dark-mode .card-dashboard {
+    background: #4a3a22;
+}
+
+body.dark-mode .admin-table th {
+    border-bottom-color: var(--color-border);
+}
+
+body.dark-mode .admin-table tbody tr:hover {
+    background: #2b251e;
+}
+
+body.dark-mode .content-danger {
+    border-color: #6b3a34;
+}
+
+body.dark-mode .form-input,
+body.dark-mode .profile-card input,
+body.dark-mode .reserva-form input,
+body.dark-mode .reserva-form select {
+    background: #2b251e;
+    color: var(--color-tres);
+    border-color: var(--color-border);
+}
+
+body.dark-mode .search-box input {
+    color: var(--color-tres);
+}
+
+body.dark-mode input::placeholder {
+    color: #8d7d68;
+}
+
+body.dark-mode select option {
+    background: #2b251e;
+    color: var(--color-tres);
+}
+
+body.dark-mode .producto,
+body.dark-mode .profile-card,
+body.dark-mode .reserva-form,
+body.dark-mode .fav-item,
+body.dark-mode .hist-item,
+body.dark-mode .reservar-item,
+body.dark-mode .book-description-box {
+    background: #2b251e;
+}
+
+body.dark-mode .producto {
+    border-color: var(--color-border);
+}
+
+body.dark-mode .btn-admin,
+body.dark-mode .btn-prestamo,
+body.dark-mode .btn-pay-submit,
+body.dark-mode .profile-card button,
+body.dark-mode .reserva-form button,
+body.dark-mode .admin-table button,
+body.dark-mode .filtro-btn.activo,
+body.dark-mode .categoria.active,
+body.dark-mode .btn-mini:hover,
+body.dark-mode .res-btn:hover {
+    color: #1a1611;
+}
+
+body.dark-mode .btn-admin.btn-danger {
+    color: #fff;
+}
+
+body.dark-mode .estado-activo,
+body.dark-mode .estado-pagada {
+    background: #1f3a22;
+    color: #8fd694;
+}
+
+body.dark-mode .estado-vencido,
+body.dark-mode .estado-pendiente {
+    background: #4a2420;
+    color: #f1948a;
+}
+
+body.dark-mode .estado-devuelto {
+    color: #aaa;
+}
+
+body.dark-mode .btn-favorito.active,
+body.dark-mode .btn-icon-action.active,
+body.dark-mode .fav-btn-remove {
+    color: #e57368;
+}
+
+@media print {
+    body.dark-mode {
+        background: #fff;
+    }
+    body.dark-mode #ticket,
+    body.dark-mode #ticket * {
+        color: #000 !important;
+    }
+}
